@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Time</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <style>
+        form {
+            background-color: rgba(0, 87, 250, 0.993);
+            width: 500px;
+            height: 250px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -125px 0 0 -250px;
+        }
+
+        label {
+            color: aliceblue;
+        }
+
+        #div1 {
+            line-height: 35px;
+        }
+    </style>
+</head>
+
+<body>
+    <form>
+        <div id="div1">
+            <div class="container">
+                <label>請選擇影城</label>
+                <select id="cinemaList" name="請選擇影城" onchange="changeCinema(this.selectedIndex)"
+                    class="form-control"></select>
+            </div>
+            <div class="container">
+                <label>請選擇電影</label>
+                <select id="movieList" onchange="changeMovie(this.selectedIndex)" class="form-control"></select>
+            </div>
+            <div class="container">
+                <label>請選擇日期</label>
+                <select id="timeList" class="form-control"></select>
+            </div>
+        </div>
+    </form>
+
+    <p id='demo'></p>
+    <script>
+        var cinema = ['請選擇影城', '台北信義威秀影城', '台中大遠百威秀影城', '高雄大遠百威秀影城'];
+        var cinemaSelect = document.getElementById("cinemaList");
+        var inner = "";
+        for (var i = 0; i < cinema.length; i++) {
+            inner = inner + '<option value=i>' + cinema[i] + '</option>';
+        }
+        cinemaSelect.innerHTML = inner;
+
+        var movies = new Array();
+        movies[0] = ['請選擇電影']
+        movies[1] = ['請選擇電影', '(數位 英)獅子王 (普遍級)', '(數位 國)電影哆啦A夢：大雄的月球探測記 (普遍級)', '(數位 英)阿拉丁 (普遍級)',
+            '(數位)玩命關頭 : 特別行動 (輔12級)',
+            '(數位)灼人秘密 (輔15級)', '(數位)從前，有個好萊塢 (輔12級)', '(數位)寄生上流 (輔12級)',
+            '(數位)人生消極掰 (輔12級)', '(數位)蜘蛛人：離家日 (普遍級)', '(數位)電流大戰 (保護級)', '(數位)駭客任務 (保護級)', '(數位)掃毒 2 天地對決 (輔15級)'
+        ];
+        movies[2] = ['請選擇電影', '(數位 英)獅子王 (普遍級)', '(數位 國)電影哆啦A夢：大雄的月球探測記 (普遍級)', '(數位 英)阿拉丁 (普遍級)',
+            '(數位)玩命關頭 : 特別行動 (輔12級)',
+            '(數位)灼人秘密 (輔15級)', '(數位)從前，有個好萊塢 (輔12級)', '(數位)寄生上流 (輔12級)',
+            '(數位)人生消極掰 (輔12級)', '(數位)蜘蛛人：離家日 (普遍級)', '(數位)電流大戰 (保護級)'
+        ];
+        movies[3] = ['請選擇電影', '(數位 英)獅子王 (普遍級)', '(數位 國)電影哆啦A夢：大雄的月球探測記 (普遍級)', '(數位 英)阿拉丁 (普遍級)',
+            '(數位)玩命關頭 : 特別行動 (輔12級)',
+            '(數位)灼人秘密 (輔15級)', '(數位)從前，有個好萊塢 (輔12級)', '(數位)寄生上流 (輔12級)',
+            '(數位)人生消極掰 (輔12級)'
+        ];
+
+        function changeCinema(index) {
+            var MovieInner = "";
+            for (var i = 0; i < movies[index].length; i++) {
+                MovieInner = MovieInner + '<option value=i>' + movies[index][i] + '</option>';
+            }
+            var movieSelect = document.getElementById("movieList");
+            movieSelect.innerHTML = MovieInner;
+        }
+        changeCinema(document.getElementById("cinemaList").selectedIndex);
+
+        var d = new Date();
+        var year = d.getFullYear();
+        var month = d.getMonth() + 1;
+        var date = d.getDate();
+        var dayList = ['(日)', '(一)', '(二)', '(三)', '(四)', '(五)', '(六)'];
+        var day = d.getDay();
+        console.log(d);
+        var nextMonth = month + 1;
+        console.log(nextMonth);
+        var lastDay = new Date(2019, nextMonth, 0);
+        lastDay = lastDay.getDate()
+        console.log(lastDay);
+
+        var time = new Array();
+
+        function dateUpdate() {
+            for (var i = 0; i < 7; i++) {
+                if (date + i > lastDay) {
+                    month = month + 1;
+                    console.log(month);
+                    date = i - 1;
+                    console.log(date);
+                }
+                var t = []
+                t[i] = year + '/' + month + '/' + (date + i) + dayList[(day + i) % 7];
+                time.push(t[i]);
+                console.log(time);
+            }
+        }
+        dateUpdate();
+        time.unshift('請選擇日期');
+        console.log(time[0]);
+
+        var selectDay = new Array();
+        selectDay[0] = [];
+        selectDay[0].push(time[0], time[1], time[2], time[3]);
+        selectDay[1] = [];
+        selectDay[1].push(time[0], time[1], time[2]);
+        selectDay[2] = [];
+        selectDay[2].push(time[0], time[1]);
+        selectDay[3] = [];
+        selectDay[3].push(time[0], time[1], time[2], time[3], time[4], time[5], time[6], time[7]);
+        selectDay[4] = [];
+        selectDay[4].push(time[0], time[1], time[2], time[3], time[4], time[5], time[6]);
+        selectDay[5] = [];
+        selectDay[5].push(time[0], time[1], time[2], time[3], time[4], time[5]);
+        selectDay[6] = [];
+        selectDay[6].push(time[0], time[1], time[2], time[3], time[4]);
+
+
+
+        function changeMovie(Tindex) {
+            var TimeInner = ""; 
+            for (var i = 0; i < selectDay[day].length; i++) {
+            TimeInner = TimeInner + '<option value=i>' + selectDay[day][i] + '</option>';
+            var timeSelect = document.getElementById("timeList");}
+            timeSelect.innerHTML = TimeInner;
+        }
+        changeMovie(document.getElementById("movieList").selectedIndex);
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>
